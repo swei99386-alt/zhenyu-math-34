@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>振宇专属·空间向量 3.4 3D动效微课放映厅（全语音原声版）</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #131b2e;
+      --surface-border: #1f2d4d;
+      --primary: #6366f1;
+      --secondary: #0ea5e9;
+      --accent: #f59e0b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 24px; min-height: 100vh; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    header { background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(14, 165, 233, 0.1)); border: 1px solid var(--surface-border); border-radius: 18px; padding: 22px 28px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .canvas-card { background: #060911; border: 1px solid var(--surface-border); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+    #spaceCanvas { width: 100%; max-width: 500px; height: 420px; background: radial-gradient(circle at center, #111a2e 0%, #060911 100%); border-radius: 12px; cursor: grab; }
+    #spaceCanvas:active { cursor: grabbing; }
+    .story-card { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 18px; padding: 24px; display: flex; flex-direction: column; }
+    .step { padding: 14px 18px; border-left: 3px solid var(--surface-border); margin-bottom: 12px; border-radius: 0 8px 8px 0; background: rgba(255, 255, 255, 0.02); }
+    .step.active { border-left-color: var(--secondary); background: rgba(14, 165, 233, 0.12); }
+    .step-time { font-size: 0.8rem; font-weight: 700; color: var(--secondary); margin-bottom: 4px; }
+    .btn-action { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  
+/* === 全域直达极速导航栏 (Universal Global Navigation) === */
+.super-global-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(13, 17, 28, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.35);
+  padding: 10px 24px;
+  margin: -24px -24px 20px -24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+.super-global-nav .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.95rem;
+}
+.super-global-nav .nav-brand-icon {
+  font-size: 1.25rem;
+}
+.super-global-nav .nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.super-global-nav .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+.super-global-nav .nav-link:hover {
+  color: #fff;
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+}
+.super-global-nav .nav-link.active {
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #0ea5e9);
+  border-color: transparent;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.45);
+}
+
+</style>
+</head>
+<body>
+  <!-- 统一全域直达导航栏 -->
+  <nav class="super-global-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-icon">📐</span>
+      <span class="nav-brand-title">宋振宇专属 · 空间向量 3.4 视听学习站</span>
+    </div>
+    <div class="nav-links">
+      <a href="./index.html" class="nav-link">🏠 导航大厅</a><a href="./workbench.html" class="nav-link">👑 旗舰大工作台</a><a href="./tutor.html" class="nav-link">💬 微信私教馆</a><a href="./lecture.html" class="nav-link active">🎬 3D微课放映厅</a><a href="./cards.html" class="nav-link">📇 抽认卡微测</a><a href="./calc.html" class="nav-link">⚡ 速算工作台</a>
+    </div>
+  </nav>
+
+  
+
+
+  <div class="container">
+    <header>
+      <div>
+        <h2 style="font-size: 1.5rem;">🎬 空间向量 3.4 3D动效微课放映厅</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">黑底科技风 MG 动效剧场 · 可按住鼠标左键 360 度旋转三维立体坐标系</p>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-action" onclick="playMasterAudio()">▶️ 播放 180秒微课名师解说</button>
+        <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5;" onclick="stopAudio()">⏹️ 停止</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- 3D Canvas -->
+      <div class="canvas-card">
+        <div style="width: 100%; display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <strong style="color: #38bdf8;">🌐 空间直角坐标系 & 法向量拔地而起</strong>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">按住鼠标左键拖拽旋转</span>
+        </div>
+        <canvas id="spaceCanvas" width="500" height="420"></canvas>
+        <div style="display: flex; gap: 14px; margin-top: 14px; font-size: 0.85rem;">
+          <span style="color: #ef4444;">● X 轴 (红)</span>
+          <span style="color: #10b981;">● Y 轴 (绿)</span>
+          <span style="color: #3b82f6;">● Z 轴 (蓝)</span>
+          <span style="color: #f59e0b;">▲ 金色：法向量 n</span>
+        </div>
+      </div>
+
+      <!-- Storyboard -->
+      <div class="story-card">
+        <h3 style="margin-bottom: 16px;">📜 180 秒微课逐秒剧本与分镜</h3>
+        <div style="flex: 1; overflow-y: auto; max-height: 400px;">
+          <div class="step active">
+            <div class="step-time">00:00 - 00:30 · 痛点唤醒</div>
+            <strong>想不出辅助线 = 零分？</strong><br>
+            传统几何找垂足极其痛苦。3.4 节空间向量直接建系，立体几何秒变小学算术！
+          </div>
+          <div class="step">
+            <div class="step-time">00:30 - 01:10 · 核心神装</div>
+            <strong>法向量拔地而起！</strong><br>
+            定住一个平面只需一根金箍棒——法向量 $\vec{n}$！抓两个不共线向量点积为 0，解出法向量就是平面的绝对代言人。
+          </div>
+          <div class="step">
+            <div class="step-time">01:10 - 01:45 · 一招通杀三大角</div>
+            <strong>求线线用余弦，求线面变正弦！</strong><br>
+            线面角算出来是余角，因此直接是 $\sin$；二面角看开口朝向定正负！
+          </div>
+          <div class="step">
+            <div class="step-time">01:45 - 02:30 · 距离的影子魔法</div>
+            <strong>点到平面的向量射影公式</strong><br>
+            面上任抓一点 $A$，将 $\vec{AP}$ 往法向量上一投影：$d = \frac{|\vec{AP} \cdot \vec{n}|}{|\vec{n}|}$，再也不用作高线！
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioMaster" src="audio/sample2_lecture.mp3" style="display: none;"></audio>
+
+  <script>
+    const player = document.getElementById('audioMaster');
+    function playMasterAudio() { player.play(); }
+    function stopAudio() { player.pause(); player.currentTime = 0; }
+
+    // 3D Canvas Engine
+    let angleX = 0.5, angleY = 0.7;
+    let isDragging = false, lastMouseX, lastMouseY;
+
+    const canvas = document.getElementById('spaceCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.onmousedown = (e) => {
+      isDragging = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    };
+
+    window.onmousemove = (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - lastMouseX;
+      const dy = e.clientY - lastMouseY;
+      angleY += dx * 0.01;
+      angleX += dy * 0.01;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      render3D();
+    };
+
+    window.onmouseup = () => { isDragging = false; };
+
+    function project3D(x, y, z, cx, cy, scale) {
+      let y1 = y * Math.cos(angleX) - z * Math.sin(angleX);
+      let z1 = y * Math.sin(angleX) + z * Math.cos(angleX);
+      let x2 = x * Math.cos(angleY) + z1 * Math.sin(angleY);
+      let z2 = -x * Math.sin(angleY) + z1 * Math.cos(angleY);
+      return { x: cx + x2 * scale, y: cy - y1 * scale };
+    }
+
+    function render3D() {
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2 + 30;
+      const scale = 36;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Plane
+      ctx.beginPath();
+      const p1 = project3D(-4, 0, -4, cx, cy, scale);
+      const p2 = project3D(4, 0, -4, cx, cy, scale);
+      const p3 = project3D(4, 0, 4, cx, cy, scale);
+      const p4 = project3D(-4, 0, 4, cx, cy, scale);
+      ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.lineTo(p3.x, p3.y); ctx.lineTo(p4.x, p4.y);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(99, 102, 241, 0.18)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(99, 102, 241, 0.4)';
+      ctx.stroke();
+
+      // Axes
+      const o = project3D(0, 0, 0, cx, cy, scale);
+      const xAxis = project3D(5, 0, 0, cx, cy, scale);
+      ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(xAxis.x, xAxis.y);
+      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      const yAxis = project3D(0, 0, 5, cx, cy, scale);
+      ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(yAxis.x, yAxis.y);
+      ctx.strokeStyle = '#10b981'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      const zAxis = project3D(0, 5, 0, cx, cy, scale);
+      ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(zAxis.x, zAxis.y);
+      ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      // Normal Vector n (Gold Arrow)
+      const nHead = project3D(0, 4.5, 0, cx, cy, scale);
+      ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(nHead.x, nHead.y);
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 4; ctx.stroke();
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath(); ctx.arc(nHead.x, nHead.y, 6, 0, Math.PI * 2); ctx.fill();
+
+      ctx.font = "bold 13px sans-serif";
+      ctx.fillStyle = "#fbbf24";
+      ctx.fillText("平面的法向量 n = (0, 0, 1)", nHead.x + 8, nHead.y);
+    }
+
+    render3D();
+  </script>
+</body>
+</html>

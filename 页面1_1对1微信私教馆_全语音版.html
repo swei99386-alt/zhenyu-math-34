@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>振宇专属·空间向量 3.4 1对1启发式微信私教馆（全语音原声版）</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --surface: #131b2e;
+      --surface-border: #1f2d4d;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 24px; min-height: 100vh; }
+    .container { max-width: 900px; margin: 0 auto; }
+    header { background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(14, 165, 233, 0.1)); border: 1px solid var(--surface-border); border-radius: 18px; padding: 22px 28px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .chat-box { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 18px; padding: 24px; height: 680px; display: flex; flex-direction: column; }
+    .chat-messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; padding-right: 8px; }
+    .msg-row { display: flex; gap: 12px; max-width: 85%; }
+    .msg-row.ai { align-self: flex-start; }
+    .msg-row.user { align-self: flex-end; flex-direction: row-reverse; }
+    .avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .avatar.ai { background: linear-gradient(135deg, #6366f1, #3b82f6); }
+    .avatar.user { background: linear-gradient(135deg, #10b981, #059669); }
+    .bubble { padding: 14px 18px; border-radius: 14px; font-size: 0.98rem; line-height: 1.6; }
+    .msg-row.ai .bubble { background: #19233c; border: 1px solid var(--surface-border); border-top-left-radius: 4px; }
+    .msg-row.user .bubble { background: linear-gradient(135deg, #4f46e5, #4338ca); border-top-right-radius: 4px; }
+    .voice-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 5px 12px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; color: #93c5fd; font-size: 0.82rem; cursor: pointer; }
+    .voice-btn:hover { background: rgba(255, 255, 255, 0.15); }
+    .btn-action { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .quick-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--surface-border); }
+    .quick-btn { background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.35); color: #c7d2fe; padding: 8px 14px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; }
+    .quick-btn:hover { background: var(--primary); color: #fff; }
+  
+/* === 全域直达极速导航栏 (Universal Global Navigation) === */
+.super-global-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(13, 17, 28, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.35);
+  padding: 10px 24px;
+  margin: -24px -24px 20px -24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+.super-global-nav .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.95rem;
+}
+.super-global-nav .nav-brand-icon {
+  font-size: 1.25rem;
+}
+.super-global-nav .nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.super-global-nav .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+.super-global-nav .nav-link:hover {
+  color: #fff;
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+}
+.super-global-nav .nav-link.active {
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #0ea5e9);
+  border-color: transparent;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.45);
+}
+
+</style>
+</head>
+<body>
+  <!-- 统一全域直达导航栏 -->
+  <nav class="super-global-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-icon">📐</span>
+      <span class="nav-brand-title">宋振宇专属 · 空间向量 3.4 视听学习站</span>
+    </div>
+    <div class="nav-links">
+      <a href="./index.html" class="nav-link">🏠 导航大厅</a><a href="./workbench.html" class="nav-link">👑 旗舰大工作台</a><a href="./tutor.html" class="nav-link active">💬 微信私教馆</a><a href="./lecture.html" class="nav-link">🎬 3D微课放映厅</a><a href="./cards.html" class="nav-link">📇 抽认卡微测</a><a href="./calc.html" class="nav-link">⚡ 速算工作台</a>
+    </div>
+  </nav>
+
+  
+
+
+  <div class="container">
+    <header>
+      <div>
+        <h2 style="font-size: 1.5rem;">💬 空间向量 3.4 1对1启发式微信私教馆</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">特级名师在线一对一拆解立体几何难点 · 点击气泡中的“🔊”可播放原声讲解</p>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-action" onclick="playMasterAudio()">🎧 连贯播放整节对话原声 (500KB)</button>
+        <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #fca5a5;" onclick="stopAudio()">⏹️ 停止</button>
+      </div>
+    </header>
+
+    <div class="chat-box">
+      <div class="chat-messages" id="chatList">
+        
+        <div class="msg-row ai">
+          <div class="avatar ai">👨‍🏫</div>
+          <div class="bubble">
+            振宇，你求直线方向向量 $\vec{d} = (1, 1, 2)$ 和底面法向量 $\vec{n} = (0, 0, 1)$ 的步骤完全正确，基本功很扎实！<br>
+            但是这里藏着全省 80% 同学都会踩的巨坑——<strong>你刚才算出来的 $\frac{2}{\sqrt{6}}$，到底是直线和底面的夹角，还是直线和法向量的夹角？</strong><br>
+            <button class="voice-btn" onclick="speak('振宇，你求向量的步骤完全正确！但是这里藏着巨坑，你刚才算出来的，到底是直线和底面的夹角，还是直线和法向量的夹角？')">🔊 听老师提问</button>
+          </div>
+        </div>
+
+        <div class="msg-row user">
+          <div class="avatar user">👦</div>
+          <div class="bubble">呃……我用的是向量点积公式，算出来的应该是直线和法向量的夹角吧？</div>
+        </div>
+
+        <div class="msg-row ai">
+          <div class="avatar ai">👨‍🏫</div>
+          <div class="bubble">
+            太棒了，一语中的！法向量垂直于底面，就像一根垂直立在地上的旗杆。<br>
+            那你想想：<strong>一根斜插在地上的木棍，它跟地面的夹角 $\theta$，与它跟那根垂直旗杆的夹角 $\alpha$，两者加起来等于多少度？</strong><br>
+            <button class="voice-btn" onclick="speak('太棒了，一语中的！法向量是垂直底面的，就像垂直立在地上的旗杆。斜插的木棍跟地面的角，和跟旗杆的角，加起来等于多少度？')">🔊 听老师点拨</button>
+          </div>
+        </div>
+
+        <div class="msg-row user">
+          <div class="avatar user">👦</div>
+          <div class="bubble">一个直角三角形里，那肯定加起来是 90 度啊，互余的！</div>
+        </div>
+
+        <div class="msg-row ai">
+          <div class="avatar ai">👨‍🏫</div>
+          <div class="bubble">
+            绝顶聪明！既然两个角互余（$\theta + \alpha = 90^\circ$），那么<strong>旗杆夹角的余弦值 $\cos \alpha$，对应到木棍和地面的夹角 $\theta$ 上，是正弦还是余弦？</strong><br>
+            <button class="voice-btn" onclick="speak('绝顶聪明！既然两个角互余，那么旗杆夹角的余弦值，对应到木棍和地面的夹角上，是正弦还是余弦？')">🔊 听老师提问</button>
+          </div>
+        </div>
+
+        <div class="msg-row user">
+          <div class="avatar user">👦</div>
+          <div class="bubble">诱导公式！$\cos \alpha = \cos(90^\circ - \theta) = \sin \theta$！我明白了，所以点积公式算出来的直接是正弦值！题目问余弦，我必须再用 $\sqrt{1 - \sin^2 \theta}$ 换算一次！</div>
+        </div>
+
+        <div class="msg-row ai">
+          <div class="avatar ai">👨‍🏫</div>
+          <div class="bubble">
+            完全正确！三大空间角里，唯独线面角直接算出来是 $\sin$！复述清楚这个通法，高考立体几何绝不再踩坑！<br>
+            <button class="voice-btn" onclick="speak('完全正确！三大空间角里，唯独线面角直接算出来是正弦！这个考点已完美通关！')">🔊 老师表扬</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quick-bar">
+        <span style="font-size: 0.85rem; color: var(--text-muted); width: 100%;">振宇点击向名师追问（AI 即刻发语音回答）：</span>
+        <button class="quick-btn" onclick="askTutor('二面角算出来是正弦还是余弦？')">💬 追问：二面角算出来是正弦还是余弦？</button>
+        <button class="quick-btn" onclick="askTutor('点到平面的距离公式也是用投影算的对吧？')">💬 追问：点面距公式怎么用射影秒杀？</button>
+        <button class="quick-btn" onclick="askTutor('线面平行怎么用向量判定？')">💬 追问：线面平行点积等于0对不对？</button>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audioMaster" src="audio/sample1_dialog.mp3" style="display: none;"></audio>
+
+  <script>
+    const player = document.getElementById('audioMaster');
+    function playMasterAudio() { player.play(); }
+    function stopAudio() {
+      player.pause(); player.currentTime = 0;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function speak(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'zh-CN';
+      utter.rate = 1.05;
+      window.speechSynthesis.speak(utter);
+    }
+
+    function askTutor(q) {
+      const list = document.getElementById('chatList');
+      const u = document.createElement('div');
+      u.className = 'msg-row user';
+      u.innerHTML = `<div class="avatar user">👦</div><div class="bubble">${q}</div>`;
+      list.appendChild(u);
+
+      setTimeout(() => {
+        const a = document.createElement('div');
+        a.className = 'msg-row ai';
+        let ans = "";
+        if (q.includes('二面角')) {
+          ans = "二面角算出来是<strong>余弦值 cos</strong>！因为两个平面的法向量夹角直接对应二面角（相等或互补），只需看原图是钝角还是锐角来定正负号！";
+        } else if (q.includes('点面距')) {
+          ans = "问得好！点到平面的距离公式 $d = \\frac{|\\vec{AP} \\cdot \\vec{n}|}{|\\vec{n}|}$，本质就是<strong>向量在法向量方向上的垂直射影长度</strong>，不用作垂足！";
+        } else {
+          ans = "注意！直线方向向量与法向量点积为 0，说明直线与法向量垂直，此时直线<strong>平行于平面，或者直线就在平面内</strong>，不能单选平行！";
+        }
+        a.innerHTML = `<div class="avatar ai">👨‍🏫</div><div class="bubble">${ans}<br><button class="voice-btn" onclick="speak('${ans.replace(/<[^>]+>/g, '')}')">🔊 听老师解答</button></div>`;
+        list.appendChild(a);
+        list.scrollTop = list.scrollHeight;
+        speak(ans.replace(/<[^>]+>/g, ''));
+      }, 500);
+      list.scrollTop = list.scrollHeight;
+    }
+  </script>
+</body>
+</html>

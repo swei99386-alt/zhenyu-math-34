@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>宋振宇专属 · 高中数学空间向量 3.4 视听交互立体学习中心</title>
+  <style>
+    :root {
+      --bg: #070a13;
+      --surface: #0f172a;
+      --surface-card: #141e38;
+      --surface-hover: #1e294b;
+      --border: #1e293b;
+      --border-glow: #38bdf840;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --secondary: #0ea5e9;
+      --accent: #f59e0b;
+      --success: #10b981;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; padding: 30px 20px; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* Hero Banner */
+    .hero {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(14, 165, 233, 0.15), rgba(16, 185, 129, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 24px;
+      padding: 36px 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      background: rgba(99, 102, 241, 0.25);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffffff, #93c5fd, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.lead {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 24px;
+    }
+
+    /* Master Audio Control Deck */
+    .audio-deck {
+      background: rgba(11, 17, 33, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 16px;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .audio-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .audio-wave {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.5);
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 14px rgba(99, 102, 241, 0.4); }
+      50% { transform: scale(1.06); box-shadow: 0 0 24px rgba(56, 189, 248, 0.7); }
+    }
+
+    .btn-main-play {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-main-play:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary-audio {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: #cbd5e1;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary-audio:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    /* Featured Flagship Card */
+    .featured-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(14, 165, 233, 0.1));
+      border: 2px solid rgba(99, 102, 241, 0.5);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 36px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .featured-card:hover {
+      border-color: #38bdf8;
+      box-shadow: 0 16px 36px rgba(56, 189, 248, 0.25);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -12px;
+      right: 28px;
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Grid Layout */
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+      margin-bottom: 40px;
+    }
+
+    .sample-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+    }
+
+    .sample-card:hover {
+      transform: translateY(-4px);
+      background: var(--surface-hover);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.55;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .tag-pill {
+      font-size: 0.75rem;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-open {
+      flex: 1;
+      background: linear-gradient(135deg, var(--primary), #4f46e5);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-open:hover {
+      background: linear-gradient(135deg, #4f46e5, var(--secondary));
+    }
+
+    .btn-card-audio {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .btn-card-audio:hover {
+      background: rgba(56, 189, 248, 0.25);
+    }
+
+    /* Docs Section */
+    .doc-list {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 26px;
+      margin-bottom: 30px;
+    }
+
+    .doc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.95rem;
+    }
+
+    .doc-item:last-child { border-bottom: none; }
+
+    .doc-link {
+      color: #93c5fd;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .doc-link:hover { text-decoration: underline; color: #60a5fa; }
+
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+  
+/* === 全域直达极速导航栏 (Universal Global Navigation) === */
+.super-global-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(13, 17, 28, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.35);
+  padding: 10px 24px;
+  margin: -24px -24px 20px -24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+.super-global-nav .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.95rem;
+}
+.super-global-nav .nav-brand-icon {
+  font-size: 1.25rem;
+}
+.super-global-nav .nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.super-global-nav .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease;
+}
+.super-global-nav .nav-link:hover {
+  color: #fff;
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.5);
+  transform: translateY(-1px);
+}
+.super-global-nav .nav-link.active {
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #0ea5e9);
+  border-color: transparent;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.45);
+}
+
+</style>
+</head>
+<body>
+  <!-- 统一全域直达导航栏 -->
+  <nav class="super-global-nav">
+    <div class="nav-brand">
+      <span class="nav-brand-icon">📐</span>
+      <span class="nav-brand-title">宋振宇专属 · 空间向量 3.4 视听学习站</span>
+    </div>
+    <div class="nav-links">
+      <a href="./index.html" class="nav-link active">🏠 导航大厅</a><a href="./workbench.html" class="nav-link">👑 旗舰大工作台</a><a href="./tutor.html" class="nav-link">💬 微信私教馆</a><a href="./lecture.html" class="nav-link">🎬 3D微课放映厅</a><a href="./cards.html" class="nav-link">📇 抽认卡微测</a><a href="./calc.html" class="nav-link">⚡ 速算工作台</a>
+    </div>
+  </nav>
+
+  
+
+
+  <div class="container">
+    
+    <!-- Hero Banner -->
+    <div class="hero">
+      <div class="hero-tag">🎓 宋振宇专属 · 高中数学提分黑科技</div>
+      <h1>空间向量在立体几何中的应用（3.4 节）</h1>
+      <p class="lead">
+        针对高二几何核心痛点，彻底告别繁复辅助线！全系搭载微软云神经网络真人解说原声、Web Speech 即时点读互动与立体几何三维仿真，专为振宇打造极简提分路径。
+      </p>
+
+      <!-- Audio Deck -->
+      <div class="audio-deck">
+        <div class="audio-info">
+          <div class="audio-wave">🎙️</div>
+          <div>
+            <strong style="color: #fff; font-size: 1rem;">工作站视听总导学原声（特级名师 Yunxi 神经网络原声）</strong>
+            <div style="color: var(--text-muted); font-size: 0.82rem;">共 5 条高清音频已在 E 盘就绪 · 点击右侧随时收听</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn-main-play" onclick="playDeckAudio('welcome.mp3')">▶ 播放工作站总导学</button>
+          <button class="btn-secondary-audio" onclick="playDeckAudio('sample2_lecture.mp3')">🎬 180秒微课原声</button>
+          <button class="btn-secondary-audio" onclick="playDeckAudio('sample1_dialog.mp3')">💬 私教对话原声</button>
+          <button class="btn-secondary-audio" onclick="playDeckAudio('sample3_mnemonics.mp3')">📜 5大考点口诀</button>
+          <button class="btn-secondary-audio" onclick="playDeckAudio('sample4_guide.mp3')">⚡ 速算避坑指南</button>
+          <button class="btn-secondary-audio" style="color: #f87171;" onclick="stopDeckAudio()">⏹ 停止</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Master Workbench -->
+    <div class="featured-card">
+      <div class="featured-badge">🌟 强烈推荐 · 四合一合体旗舰</div>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+        <div style="max-width: 720px;">
+          <h2 style="font-size: 1.6rem; color: #fff; margin-bottom: 8px;">👑 振宇专属·超级视听交互大工作台</h2>
+          <p style="color: #cbd5e1; font-size: 0.98rem; margin-bottom: 14px;">
+            一站式全能工作台！把微信启发式对话、Three.js 3D 自由旋转几何体、考点翻转卡片微测、以及向量夹角实时计算器与考点复述勋章系统全部融为一屏，音画双全，体验极佳。
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;">
+            <span class="tag-pill" style="background: rgba(99, 102, 241, 0.25); color: #c7d2fe;">全景 4 合 1</span>
+            <span class="tag-pill" style="background: rgba(56, 189, 248, 0.2); color: #7dd3fc;">Three.js 3D 自由拖拽旋转</span>
+            <span class="tag-pill" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7;">5 首原声随时点播</span>
+            <span class="tag-pill" style="background: rgba(245, 158, 11, 0.2); color: #fde68a;">复述通关勋章</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; min-width: 220px;">
+          <a href="workbench.html" class="btn-open" style="padding: 14px 24px; font-size: 1.05rem; background: linear-gradient(135deg, #6366f1, #0ea5e9);">🚀 立即进入旗舰大工作台</a>
+          <button class="btn-card-audio" style="justify-content: center; padding: 11px;" onclick="playDeckAudio('welcome.mp3')">🔊 听本台使用说明</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Specialized Sample Pavilions -->
+    <div class="section-title">
+      <span>📚 四大学习小样单项馆（全页面带语音）</span>
+    </div>
+
+    <div class="grid-2x2">
+      
+      <!-- Sample 1 -->
+      <div class="sample-card">
+        <div>
+          <div class="card-icon" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">💬</div>
+          <div class="card-title">小样 1：1对1 微信私教馆</div>
+          <div class="card-desc">
+            特级名师在线一对一模拟微信聊天，不灌输答案，通过连续提问引导振宇自己悟出“法向量垂直底面，余弦变正弦”的黄金逻辑。每个气泡都能单独发音！
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">启发式微闭环</span>
+            <span class="tag-pill">原声录制 509KB</span>
+            <span class="tag-pill">随点即读</span>
+            <span class="tag-pill">即时追问</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="tutor.html" class="btn-open">打开私教馆</a>
+          <button class="btn-card-audio" onclick="playDeckAudio('sample1_dialog.mp3')">▶ 试听原声</button>
+        </div>
+      </div>
+
+      <!-- Sample 2 -->
+      <div class="sample-card">
+        <div>
+          <div class="card-icon" style="background: rgba(14, 165, 233, 0.2); color: #38bdf8;">🎬</div>
+          <div class="card-title">小样 2：3D 动效微课放映厅</div>
+          <div class="card-desc">
+            黑底科技感 Three.js 三维立体空间，鼠标可 360° 自由旋转底面与法向量。搭配 180 秒名师微课旁白，将“一根木棍与一根旗杆”的抽象几何具象化。
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">Three.js 3D 旋转</span>
+            <span class="tag-pill">180秒名师精讲</span>
+            <span class="tag-pill">原声录制 486KB</span>
+            <span class="tag-pill">分步交互</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="lecture.html" class="btn-open">进入放映厅</a>
+          <button class="btn-card-audio" onclick="playDeckAudio('sample2_lecture.mp3')">▶ 试听原声</button>
+        </div>
+      </div>
+
+      <!-- Sample 3 -->
+      <div class="sample-card">
+        <div>
+          <div class="card-icon" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;">📇</div>
+          <div class="card-title">小样 3：3D 翻转抽认卡与微测</div>
+          <div class="card-desc">
+            正面展示公式核心与典型陷阱，点击带逼真 3D 翻转动画与清脆音效！内含 5 大考点避坑口诀磨耳朵音频，以及两道防踩坑即时微测与正误音效反馈。
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">3D 真实翻转</span>
+            <span class="tag-pill">翻转音效</span>
+            <span class="tag-pill">原声口诀 326KB</span>
+            <span class="tag-pill">微测做题</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="cards.html" class="btn-open">翻看抽认卡</a>
+          <button class="btn-card-audio" onclick="playDeckAudio('sample3_mnemonics.mp3')">▶ 试听口诀</button>
+        </div>
+      </div>
+
+      <!-- Sample 4 -->
+      <div class="sample-card">
+        <div>
+          <div class="card-icon" style="background: rgba(16, 185, 129, 0.2); color: #34d399;">⚡</div>
+          <div class="card-title">小样 4：速算刷题与通关勋章</div>
+          <div class="card-desc">
+            空间向量专用速算台！输入方向向量和法向量坐标，一秒算出点积、模长、线面角正弦与余弦转换。支持考点复述 AI 判定，合格自动颁发通关勋章！
+          </div>
+          <div class="card-tags">
+            <span class="tag-pill">实时向量计算</span>
+            <span class="tag-pill">原声录制 254KB</span>
+            <span class="tag-pill">Web Audio 声音反馈</span>
+            <span class="tag-pill">勋章解锁</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="calc.html" class="btn-open">打开速算台</a>
+          <button class="btn-card-audio" onclick="playDeckAudio('sample4_guide.mp3')">▶ 试听原声</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Underlying Documents -->
+    <div class="section-title">
+      <span>📁 底层教学文档与考点资产库（Markdown 纯享版）</span>
+    </div>
+
+    <div class="doc-list">
+      <div class="doc-item">
+        <a href="README_项目全景与使用指南.md" class="doc-link">📄 <strong>README_项目全景与使用指南.md</strong>（全套产品架构、研发背景与使用手册）</a>
+        <span style="color: var(--text-muted); font-size: 0.85rem;">4.0 KB</span>
+      </div>
+      <div class="doc-item">
+        <a href="Sample1_启发式私教对话实录.md" class="doc-link">📄 <strong>Sample1_启发式私教对话实录.md</strong>（宋振宇与特级名师 1对1 启发式完整剧本）</a>
+        <span style="color: var(--text-muted); font-size: 0.85rem;">3.3 KB</span>
+      </div>
+      <div class="doc-item">
+        <a href="Sample2_动效微课分镜与动画脚本.md" class="doc-link">📄 <strong>Sample2_动效微课分镜与动画脚本.md</strong>（180秒 Remotion 黑底科技风微课分镜头脚本）</a>
+        <span style="color: var(--text-muted); font-size: 0.85rem;">5.8 KB</span>
+      </div>
+      <div class="doc-item">
+        <a href="Sample3_核心考点抽认卡与微测清单.md" class="doc-link">📄 <strong>Sample3_核心考点抽认卡与微测清单.md</strong>（5大公式记忆口诀、避坑指南与两道诊断题）</a>
+        <span style="color: var(--text-muted); font-size: 0.85rem;">5.6 KB</span>
+      </div>
+      <div class="doc-item">
+        <a href="Sample3_核心考点抽认卡与微测题集.json" class="doc-link">📄 <strong>Sample3_核心考点抽认卡与微测题集.json</strong>（结构化题库数据，供前端与 AI Agent 随时读取）</a>
+        <span style="color: var(--text-muted); font-size: 0.85rem;">8.1 KB</span>
+      </div>
+    </div>
+
+    <!-- Audio Player Engine -->
+    <audio id="deckAudioPlayer" style="display: none;"></audio>
+
+    <footer>
+      <p>💡 本地服务已在 8088 端口全速启动 · 本地专属文件夹：<code style="background: #1e293b; padding: 2px 6px; border-radius: 4px; color: #38bdf8;">E:\振宇高中数学空间向量3.4专属学习工作站\</code></p>
+      <p style="margin-top: 6px;">全套网页均内置 Web Audio 互动音效与离线 Neural 语音库，可直接离线使用。</p>
+    </footer>
+
+  </div>
+
+  <script>
+    const player = document.getElementById('deckAudioPlayer');
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playTone(freq, duration, type='sine') {
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    function playDeckAudio(file) {
+      playTone(587.33, 0.08); // D5 chime
+      player.src = 'audio/' + file;
+      player.play().catch(e => {
+        console.log("Audio autoplay restricted, speaking fallback...");
+        speak("正在为您播放讲解音频！");
+      });
+    }
+
+    function stopDeckAudio() {
+      player.pause();
+      player.currentTime = 0;
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function speak(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'zh-CN';
+      utter.rate = 1.05;
+      window.speechSynthesis.speak(utter);
+    }
+  </script>
+</body>
+</html>
